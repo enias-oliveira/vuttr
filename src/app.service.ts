@@ -23,8 +23,15 @@ export class AppService {
     return { ...tool, tags: tool.tags.map((tag) => tag.name) };
   }
 
-  async getTools(): Promise<ToolDto[]> {
+  async getTools(tag: string): Promise<ToolDto[]> {
     const tools = await this.prismaService.tool.findMany({
+      where: {
+        tags: {
+          some: {
+            name: tag,
+          },
+        },
+      },
       include: { tags: true },
     });
     return tools.map((tool) => ({

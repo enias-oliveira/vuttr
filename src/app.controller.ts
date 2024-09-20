@@ -5,10 +5,11 @@ import {
   Get,
   Post,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateToolDto } from './dto/create-tool.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { ToolDto } from './dto/tool.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -35,8 +36,9 @@ export class AppController {
     description: 'Returns a list of all tools.',
     type: [ToolDto],
   })
-  async getTools(): Promise<ToolDto[]> {
-    const tools = await this.appService.getTools();
+  @ApiQuery({ name: 'tag', required: false, type: String })
+  async getTools(@Query('tag') tag?: string): Promise<ToolDto[]> {
+    const tools = await this.appService.getTools(tag);
     return tools.map((tool) => new ToolDto(tool));
   }
 }
