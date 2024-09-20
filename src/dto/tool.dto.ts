@@ -1,7 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
-export class ToolResponseDto {
+export class ToolDto {
   @Expose()
   id: number;
 
@@ -17,7 +17,7 @@ export class ToolResponseDto {
   @Expose()
   tags: string[];
 
-  constructor(partial: Partial<ToolResponseDto>) {
+  constructor(partial: Partial<ToolDto>) {
     Object.assign(this, partial);
   }
 }

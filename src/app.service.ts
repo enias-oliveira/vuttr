@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { CreateToolDto } from './dto/create-tool.dto';
-import { ToolResponseDto } from './dto/tool-response.dto';
+import { ToolDto } from './dto/tool.dto';
 
 @Injectable()
 export class AppService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createTool({ tags, ...data }: CreateToolDto): Promise<ToolResponseDto> {
+  async createTool({ tags, ...data }: CreateToolDto): Promise<ToolDto> {
     const tool = await this.prismaService.tool.create({
       data: {
         ...data,
@@ -21,5 +21,15 @@ export class AppService {
       include: { tags: true },
     });
     return { ...tool, tags: tool.tags.map((tag) => tag.name) };
+  }
+
+  async getTools(): Promise<ToolDto[]> {
+    const tools = await this.prismaService.tool.findMany({
+      include: { tags: true },
+    });
+    return tools.map((tool) => ({
+      ...tool,
+      tags: tool.tags.map((tag) => tag.name),
+    }));
   }
 }

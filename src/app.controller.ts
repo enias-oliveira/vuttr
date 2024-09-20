@@ -2,13 +2,14 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Get,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateToolDto } from './dto/create-tool.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ToolResponseDto } from './dto/tool-response.dto';
+import { ToolDto } from './dto/tool.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller()
@@ -20,10 +21,22 @@ export class AppController {
   @ApiResponse({
     status: 201,
     description: 'The tool has been successfully created.',
-    type: ToolResponseDto,
+    type: ToolDto,
   })
-  async createTool(@Body() data: CreateToolDto): Promise<ToolResponseDto> {
+  async createTool(@Body() data: CreateToolDto): Promise<ToolDto> {
     const createdTool = await this.appService.createTool(data);
-    return new ToolResponseDto(createdTool);
+    return new ToolDto(createdTool);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'List all tools' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns a list of all tools.',
+    type: [ToolDto],
+  })
+  async getTools(): Promise<ToolDto[]> {
+    const tools = await this.appService.getTools();
+    return tools.map((tool) => new ToolDto(tool));
   }
 }
