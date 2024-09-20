@@ -1,5 +1,5 @@
 export class CreateToolDto {
-  name: string;
+  title: string;
   description: string;
   link: string;
   tags: string[];
