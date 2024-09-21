@@ -39,4 +39,10 @@ export class AppService {
       tags: tool.tags.map((tag) => tag.name),
     }));
   }
+
+  async deleteTool(id: number) {
+    return this.prismaService.tool.delete({
+      where: { id },
+    });
+  }
 }
