@@ -26,6 +26,61 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+This project implements "Very Useful Tools to Remember" (VUTTR), a simple application for managing tools with their respective names, links, descriptions, and tags. It uses Prisma as the ORM for database operations.
+
+## API Routes
+
+The application provides the following API routes:
+
+- `GET /tools`: List all tools
+- `GET /tools?tag=node`: List tools filtered by tag
+- `POST /tools`: Create a new tool
+- `DELETE /tools/:id`: Remove a tool by ID
+
+Example of creating a new tool:
+
+```bash
+POST /tools
+Content-Type: application/json
+
+{
+  "title": "hotel",
+  "link": "https://github.com/typicode/hotel",
+  "description": "Local app manager. Start apps within your browser, developer tool with local .localhost domain and https out of the box.",
+  "tags":["node", "organizing", "webapps", "domain", "developer", "https", "proxy"]
+}
+```
+
+## Database Setup with Prisma
+
+This project uses Prisma ORM for database management. Follow these steps to set up your database:
+
+1. Install Prisma CLI globally:
+
+```bash
+$ npm install -g prisma
+```
+
+2. Set up your database connection in the `.env` file:
+
+```
+DATABASE_URL="postgresql://username:password@localhost:5432/vuttr?schema=public"
+```
+
+3. Generate Prisma client:
+
+```bash
+$ npx prisma generate
+```
+
+4. Run database migrations:
+
+```bash
+$ npx prisma migrate dev
+```
+
+For more information on using Prisma, refer to the [Prisma documentation](https://www.prisma.io/docs/).
+
 ## Project setup
 
 ```bash
